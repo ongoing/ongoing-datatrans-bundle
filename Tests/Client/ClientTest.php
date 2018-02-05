@@ -13,6 +13,7 @@ use Ongoing\DatatransBundle\Model\Parameter;
 use Ongoing\DatatransBundle\Model\Request\Request;
 use Ongoing\DatatransBundle\Model\Response\SettlementResponse;
 use Ongoing\DatatransBundle\Model\Response\StatusResponse;
+use phpDocumentor\Reflection\DocBlock\Tags\Param;
 
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
@@ -96,6 +97,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     private function buildAuthRequest()
     {
         $params = [
+            Parameter::PARAM_MERCHANT_ID => '111222333',
+            Parameter::PARAM_SIGN => '111222333',
             Parameter::PARAM_AMOUNT => 55.95,
             Parameter::PARAM_CURRENCY => 'CHF',
             Parameter::PARAM_RETURNMASKEDCC => 'yes',
