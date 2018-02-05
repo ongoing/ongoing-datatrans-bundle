@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service public="false" id="ongoing_datatrans.client" class="Ongoing\DatatransBundle\Client\Client">
+            <argument type="service" id="ongoing_datatrans.gateway_factory"/>
+        </service>
+
+        <service public="false" id="ongoing_datatrans.gateway_factory"
+                 class="Ongoing\DatatransBundle\Client\GatewayFactory">
+            <argument>%ongoing_datatrans.credentials%</argument>
+            <argument>%ongoing_datatrans.test_mode%</argument>
+        </service>
+
+        <service id="ongoing_datatrans.datatrans_plugin" class="Ongoing\DatatransBundle\Plugin\DatatransPlugin">
+            <argument type="service" id="ongoing_datatrans.client"/>
+            <argument type="service" id="request_stack"/>
+            <tag name="payment.plugin"/>
+        </service>
+
+        <service id="ongoing_datatrans.datatrans_type" class="Ongoing\DatatransBundle\Form\DatatransType">
+            <tag name="form.type" alias="ongoing_datatrans"/>
+            <tag name="payment.method_form_type"/>
+        </service>
+    </services>
+</container>
