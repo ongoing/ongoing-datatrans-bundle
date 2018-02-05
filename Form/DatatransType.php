@@ -22,5 +22,4 @@ class DatatransType extends AbstractType
     {
         return 'ongoing_datatrans';
     }
-
 }

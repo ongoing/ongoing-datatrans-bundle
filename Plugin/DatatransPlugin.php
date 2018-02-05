@@ -69,7 +69,6 @@ class DatatransPlugin extends AbstractPlugin
 
         //check if an alias is set, then authorize payment directly without redirecting user
         if ($authRequest->has(Parameter::PARAM_ALIAS_CC)) {
-
             //do authorization
             $authRespone = $this->client->authorizePayment($authRequest, true);
             $this->setConfirmationData($transaction, $authRespone);
@@ -79,7 +78,6 @@ class DatatransPlugin extends AbstractPlugin
 
         //confirm request
         if ($this->getRequest()->request->has('responseCode')) {
-
             try {
                 $authResponse = $this->getAuthorizationResponse();
                 $this->throwUnlessValidPayConfirm($authResponse, $authRequest);
@@ -89,7 +87,6 @@ class DatatransPlugin extends AbstractPlugin
             } catch (\Exception $e) {
                 $this->throwFinancialTransaction($transaction, $e->getMessage());
             }
-
         } else {
             //create redirect url
             $redirectUrl = $this->client->getAuthorizationUrl($authRequest);
@@ -242,7 +239,7 @@ class DatatransPlugin extends AbstractPlugin
     protected function throwUnlessValidPayConfirm(AuthorizationResponse $authResponse, Request $authRequest)
     {
         $valid = $authResponse->getAmount() == $authRequest->getAmount() && $authResponse->getCurrency(
-            ) == $authRequest->getCurrency();
+        ) == $authRequest->getCurrency();
 
         if (!$valid) {
             throw new \Exception(

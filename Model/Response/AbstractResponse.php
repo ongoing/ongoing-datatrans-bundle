@@ -15,12 +15,12 @@ class AbstractResponse extends ParameterBag
      */
     public function __construct(array $parameters = array())
     {
-        if (isset($parameters['response'])){
+        if (isset($parameters['response'])) {
             parent::__construct($parameters['response']);
             return;
         }
 
-        if (isset($parameters['error'])){
+        if (isset($parameters['error'])) {
             parent::__construct($parameters['error']);
             return;
         }
@@ -41,7 +41,7 @@ class AbstractResponse extends ParameterBag
      */
     public function getErrorMessage()
     {
-        if ($this->hasError()){
+        if ($this->hasError()) {
             return $this->get('errorMessage');
         }
     }

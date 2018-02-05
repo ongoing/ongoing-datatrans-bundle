@@ -36,6 +36,7 @@ class GatewayFactory
      * GatewayFactory constructor.
      *
      * @param array $credentials
+     * @param array $credentials
      * @param bool $testmode
      */
     public function __construct(array $credentials, $testmode)
@@ -94,6 +95,5 @@ class GatewayFactory
             $this->aliasXmlGateway->setSign($this->credentials->get('xml_sign'));
             $this->aliasXmlGateway->setTestMode($this->credentials->get('testmode'));
         }
-
     }
 }
