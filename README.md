@@ -1,5 +1,7 @@
 # Ongoing Datatransbundle
 
+[![Build Status](https://travis-ci.org/ongoing/ongoing-datatrans-bundle.svg?branch=master)](https://travis-ci.org/ongoing/ongoing-datatrans-bundle)
+
 Ongoing Datatransbundle is an extension to the [JMSPaymentCoreBundle](https://github.com/schmittjoh/JMSPaymentCoreBundle) 
 
 ## Installation
