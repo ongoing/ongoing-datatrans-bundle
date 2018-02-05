@@ -10,7 +10,7 @@ php:
 before_script:
   - composer install -n --dev --prefer-source
 
-script: vendor/bin/phpcs --standard=PSR2 src && vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+script: vendor/bin/phpcs --extensions=php --ignore=Tests,vendor --standard=PSR2 ./  && vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
     - wget https://scrutinizer-ci.com/ocular.phar
