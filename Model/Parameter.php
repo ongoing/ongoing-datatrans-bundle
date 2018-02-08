@@ -37,4 +37,24 @@ final class Parameter
     const PARAM_PAYMENTMETHOD = 'paymentmethod';
     const PARAM_HIDDEN_MODE = 'hiddenMode';
     const PARAM_PMETHOD = 'pmethod';
+
+    /**
+     * optional customer params
+     */
+    const PARAM_UPP_CUSTOMER_DETAILS = 'uppCustomerDetails';
+    const PARAM_UPP_CUSTOMER_TITLE = 'uppCustomerTitle';
+    const PARAM_UPP_CUSTOMER_FIRSTNAME = 'uppCustomerFirstName';
+    const PARAM_UPP_CUSTOMER_LASTNAME = 'uppCustomerLastName';
+    const PARAM_UPP_CUSTOMER_STREET = 'uppCustomerStreet';
+    const PARAM_UPP_CUSTOMER_STREET2 = 'uppCustomerStreet2';
+    const PARAM_UPP_CUSTOMER_CITY = 'uppCustomerCity';
+    const PARAM_UPP_CUSTOMER_COUNTRY = 'uppCustomerCountry';
+    const PARAM_UPP_CUSTOMER_ZIPCODE = 'uppCustomerZipCode';
+    const PARAM_UPP_CUSTOMER_STATE = 'uppCustomerState';
+    const PARAM_UPP_CUSTOMER_PHONE = 'uppCustomerPhone';
+    const PARAM_UPP_CUSTOMER_FAX = 'uppCustomerFax';
+    const PARAM_UPP_CUSTOMER_EMAIL = 'uppCustomerEmail';
+    const PARAM_UPP_CUSTOMER_GENDER = 'uppCustomerGender';
+    const PARAM_UPP_CUSTOMER_BIRTHDATE = 'uppCustomerBirthDate';
+    const PARAM_UPP_CUSTOMER_LANGUAGE = 'uppCustomerLanguage';
 }

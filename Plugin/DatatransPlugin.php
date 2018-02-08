@@ -14,6 +14,7 @@ use Ongoing\DatatransBundle\Client\Client;
 use Ongoing\DatatransBundle\Model\Parameter;
 use Ongoing\DatatransBundle\Model\Request\Request;
 use Ongoing\DatatransBundle\Model\Response\AuthorizationResponse;
+use PhpParser\Node\Param;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class DatatransPlugin extends AbstractPlugin
@@ -166,6 +167,10 @@ class DatatransPlugin extends AbstractPlugin
                 ]
             );
             $params['card'] = $card;
+        }
+
+        if ($data->has(Parameter::PARAM_UPP_CUSTOMER_DETAILS)){
+            $params[Parameter::PARAM_UPP_CUSTOMER_DETAILS] = $data->get(Parameter::PARAM_UPP_CUSTOMER_DETAILS);
         }
 
         return new Request($params);
