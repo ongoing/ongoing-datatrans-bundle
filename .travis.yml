@@ -7,8 +7,9 @@ php:
   - 7.0
   - hhvm
 
-directories:
-  - $HOME/.composer/cache/files
+cache:
+    directories:
+      - $HOME/.composer/cache/files
 
 before_script:
   - echo 'memory_limit = -1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
