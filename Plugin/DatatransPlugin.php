@@ -226,7 +226,7 @@ class DatatransPlugin extends AbstractPlugin
     {
         $params = $this->getRequest()->request->all();
         $authResponse = new AuthorizationResponse($params);
-        $authResponse->set(Parameter::PARAM_AMOUNT, $authResponse->getAmount() / 100);
+        $authResponse->set(Parameter::PARAM_AMOUNT, $authResponse->getAmount());
 
         return $authResponse;
     }
@@ -239,7 +239,7 @@ class DatatransPlugin extends AbstractPlugin
     protected function throwUnlessValidPayConfirm(AuthorizationResponse $authResponse, Request $authRequest)
     {
         $valid = $authResponse->getAmount() == $authRequest->getAmount() && $authResponse->getCurrency(
-        ) == $authRequest->getCurrency();
+            ) == $authRequest->getCurrency();
 
         if (!$valid) {
             throw new \Exception(
@@ -272,6 +272,7 @@ class DatatransPlugin extends AbstractPlugin
                 Parameter::PARAM_EXPM      => $authResponse->getExpirationMonth(),
                 Parameter::PARAM_EXPY      => $authResponse->getExpirationYear(),
                 Parameter::PARAM_ALIAS_CC  => $authResponse->getAliasCC(),
+                Parameter::PARAM_PMETHOD   => $authResponse->getPMethod()
             ]
         );
 
