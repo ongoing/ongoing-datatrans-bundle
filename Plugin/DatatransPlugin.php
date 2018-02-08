@@ -226,7 +226,6 @@ class DatatransPlugin extends AbstractPlugin
     {
         $params = $this->getRequest()->request->all();
         $authResponse = new AuthorizationResponse($params);
-        $authResponse->set(Parameter::PARAM_AMOUNT, $authResponse->getAmount());
 
         return $authResponse;
     }
