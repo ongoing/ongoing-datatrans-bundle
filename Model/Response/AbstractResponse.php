@@ -61,7 +61,7 @@ class AbstractResponse extends ParameterBag
     {
         $amount = $this->get(Parameter::PARAM_AMOUNT, null, true);
 
-        if ($amount > 0){
+        if ($amount > 0) {
             return $amount / 100;
         }
 
