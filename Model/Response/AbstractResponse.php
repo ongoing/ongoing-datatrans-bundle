@@ -55,10 +55,16 @@ class AbstractResponse extends ParameterBag
     }
 
     /**
-     * @return mixed
+     * @return int|float
      */
     public function getAmount()
     {
-        return $this->get(Parameter::PARAM_AMOUNT, null, true);
+        $amount = $this->get(Parameter::PARAM_AMOUNT, null, true);
+
+        if ($amount > 0){
+            return $amount / 100;
+        }
+
+        return $amount;
     }
 }

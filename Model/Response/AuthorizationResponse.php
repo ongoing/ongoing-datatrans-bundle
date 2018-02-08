@@ -7,27 +7,11 @@ use Ongoing\DatatransBundle\Model\Parameter;
 class AuthorizationResponse extends AbstractResponse
 {
     /**
-     * @return int|float
-     */
-    public function getAmount()
-    {
-        return $this->get(Parameter::PARAM_AMOUNT);
-    }
-
-    /**
      * @return string
      */
     public function getCurrency()
     {
         return $this->get(Parameter::PARAM_CURRENCY);
-    }
-
-    /**
-     * @return string
-     */
-    public function getReferenceNumber()
-    {
-        return $this->get(Parameter::PARAM_REFNO);
     }
 
     /**
@@ -68,5 +52,13 @@ class AuthorizationResponse extends AbstractResponse
     public function getAliasCC()
     {
         return $this->get(Parameter::PARAM_ALIAS_CC);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPMethod()
+    {
+        return $this->get(Parameter::PARAM_PMETHOD);
     }
 }
