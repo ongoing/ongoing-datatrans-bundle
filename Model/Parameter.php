@@ -36,4 +36,5 @@ final class Parameter
     const PARAM_EXPY = 'expy';
     const PARAM_PAYMENTMETHOD = 'paymentmethod';
     const PARAM_HIDDEN_MODE = 'hiddenMode';
+    const PARAM_PMETHOD = 'pmethod';
 }
