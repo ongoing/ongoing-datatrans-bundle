@@ -169,7 +169,7 @@ class DatatransPlugin extends AbstractPlugin
             $params['card'] = $card;
         }
 
-        if ($data->has(Parameter::PARAM_UPP_CUSTOMER_DETAILS)){
+        if ($data->has(Parameter::PARAM_UPP_CUSTOMER_DETAILS)) {
             $params[Parameter::PARAM_UPP_CUSTOMER_DETAILS] = $data->get(Parameter::PARAM_UPP_CUSTOMER_DETAILS);
         }
 
