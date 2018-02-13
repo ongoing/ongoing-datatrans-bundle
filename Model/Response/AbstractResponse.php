@@ -17,11 +17,13 @@ class AbstractResponse extends ParameterBag
     {
         if (isset($parameters['response'])) {
             parent::__construct($parameters['response']);
+
             return;
         }
 
         if (isset($parameters['error'])) {
             parent::__construct($parameters['error']);
+
             return;
         }
 
@@ -51,7 +53,7 @@ class AbstractResponse extends ParameterBag
      */
     public function getReferenceNumber()
     {
-        return $this->get(Parameter::PARAM_REFNO, null, true);
+        return $this->get(Parameter::PARAM_REFNO, null);
     }
 
     /**
@@ -59,7 +61,7 @@ class AbstractResponse extends ParameterBag
      */
     public function getAmount()
     {
-        $amount = $this->get(Parameter::PARAM_AMOUNT, null, true);
+        $amount = $this->get(Parameter::PARAM_AMOUNT, null);
 
         if ($amount > 0) {
             return $amount / 100;

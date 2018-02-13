@@ -11,7 +11,7 @@ class StatusResponse extends AbstractResponse
      */
     public function getResponseCode()
     {
-        return $this->get(Parameter::PARAM_RESPONSECODE, null, true);
+        return $this->get(Parameter::PARAM_RESPONSECODE, null);
     }
 
     /**
