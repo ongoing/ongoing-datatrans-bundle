@@ -11,6 +11,7 @@ use Ongoing\DatatransBundle\Client\GatewayFactory;
 use Ongoing\DatatransBundle\Model\DatatransParameter;
 use Ongoing\DatatransBundle\Model\Parameter;
 use Ongoing\DatatransBundle\Model\Request\Request;
+use Ongoing\DatatransBundle\Model\Response\AuthorizationResponse;
 use Ongoing\DatatransBundle\Model\Response\SettlementResponse;
 use Ongoing\DatatransBundle\Model\Response\StatusResponse;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
@@ -91,6 +92,20 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(SettlementResponse::class, $response);
     }
 
+    public function testAuthorizePayment()
+    {
+        //test with different response code
+        $xmlGateway = $this->buildXmlGatewayMock([Parameter::PARAM_RESPONSECODE => 1]);
+
+        $this->gatewayFactory->method('getAliasXmlGateway')
+            ->willReturn($xmlGateway);
+
+        $client = new Client($this->gatewayFactory);
+        $response = $client->authorizePayment(new Request());
+
+        $this->assertInstanceOf(AuthorizationResponse::class, $response);
+    }
+
     /**
      * @return Request
      */
@@ -128,6 +143,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $xmlGateway->method('status')->willReturn($request);
         $xmlGateway->method('settlementDebit')->willReturn($request);
+        $xmlGateway->method('authorize')->willReturn($request);
 
         return $xmlGateway;
     }
