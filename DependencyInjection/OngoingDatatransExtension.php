@@ -7,9 +7,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
-/**
- * Class OngoingDatatransExtension
- */
 class OngoingDatatransExtension extends Extension
 {
     /**
@@ -21,7 +18,7 @@ class OngoingDatatransExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         foreach ($config as $key => $value) {
-            $container->setParameter('ongoing_datatrans.' . $key, $value);
+            $container->setParameter('ongoing_datatrans.'.$key, $value);
         }
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
