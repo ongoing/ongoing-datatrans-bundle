@@ -135,7 +135,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $xmlGateway = $this->getMockBuilder(XmlGateway::class)->disableOriginalConstructor()->getMock();
 
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->getMockBuilder(ResponseInterface::class)->getMock();
         $response->method('getData')->willReturn($returnValue);
 
         $request = $this->getMockBuilder(XmlStatusRequest::class)->disableOriginalConstructor()->getMock();

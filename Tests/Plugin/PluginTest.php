@@ -24,7 +24,8 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     public function testApproveThrowsActionRequiredException()
     {
         $transaction = $this->buildTestTransaction();
-        $plugin = new DatatransPlugin($this->createMock(Client::class), $this->getRequestStack());
+        $client = $this->getMockBuilder(Client::class)->disableOriginalConstructor()->getMock();
+        $plugin = new DatatransPlugin($client, $this->getRequestStack());
         $plugin->approve($transaction, false);
     }
 
@@ -121,7 +122,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     {
         $request = new Request([], $postData);
 
-        $requestStackMock = $this->createMock(RequestStack::class);
+        $requestStackMock = $this->getMockBuilder(RequestStack::class)->getMock();
         $requestStackMock->method('getCurrentRequest')->willReturn($request);
 
         return $requestStackMock;
