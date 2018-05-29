@@ -19,6 +19,7 @@ final class Parameter
     /**
      * optional params
      */
+    const PARAM_PMETHOD = 'pmethod';
     const PARAM_LANGUAGE = 'language';
     const PARAM_TRANSACTIONID = 'transactionId'; //will be used as refno in w-vision client
     const PARAM_RESPONSECODE = "responseCode";
