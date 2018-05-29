@@ -162,8 +162,8 @@ class DatatransPlugin extends AbstractPlugin
             $card = new CreditCard(
                 [
                     'number'       => $data->get(Parameter::PARAM_ALIAS_CC),
-                    'expiry_month' => '12',
-                    'expiry_year'  => '18',
+                    'expiry_month' => $data->get(Parameter::PARAM_EXPM),
+                    'expiry_year'  => $data->get(Parameter::PARAM_EXPY),
                 ]
             );
             $params['card'] = $card;
