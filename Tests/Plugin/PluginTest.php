@@ -36,6 +36,8 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     {
         $transaction = $this->buildTestTransaction();
         $transaction->getExtendedData()->set(Parameter::PARAM_ALIAS_CC, 'thisisanalias');
+        $transaction->getExtendedData()->set(Parameter::PARAM_EXPY, '18');
+        $transaction->getExtendedData()->set(Parameter::PARAM_EXPM, '01');
         $plugin = new DatatransPlugin($this->getClient(), $this->getRequestStack());
         $plugin->approve($transaction, false);
 
