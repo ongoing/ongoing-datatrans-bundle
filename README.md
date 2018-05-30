@@ -44,13 +44,12 @@ ongoing_datatrans:
         xml_merchant_id: 1100004624
         xml_sign: 30916165706580013
     test_mode: true
-    return_url: ~
-    error_url: ~
-    cancel_url: ~
+    transaction_parameter: ~
 ```
 
 * Only merchant_id and sign are mandatory
-* xml_merchant_id and xml_sign are mandatory if using alias payments (recurring payments or one click checkout) 
+* xml_merchant_id and xml_sign are mandatory if using alias payments with account on file (recurring payments or one click checkout)
+* transaction parameter like return urls, uppRememberMe, useAlias e.g.
 
 
 ### Example implementation
@@ -77,9 +76,11 @@ ongoing_datatrans:
 ```
 
 * Alias is requested when user checks out first, plugin will set the alias along with expiration month, expiration year and masked credit card number to extended data
-* By setting PARAM_ALIAS_CC, PARAM_EXPM, PARAM_EXPM from first checkout, the bundle will try to execute authorization and settlement in one request (alias/token payment).
+* By setting PARAM_ALIAS_CC, PARAM_EXPM, PARAM_EXPM datatrans will prefill the checkout form^
+* By additionally setting Parameter::PARAM_ACCOUNT_ON_FILE to "yes", the bundle will try to execute authorization and settlement in one request (alias/token payment).
 * For more information on alias payment, checkout [datatrans technical reference](https://pilot.datatrans.biz/showcase/doc/XML_Authorisation.pdf)
 * Typically alias could be set in a form listener which decides to add it on underlying data, or on form initialization like in the example above
+* For retrieving masked cc number, option uppReturnMaskedCC has to be set to yes under transaction_parameters
 
 ## License 
 
