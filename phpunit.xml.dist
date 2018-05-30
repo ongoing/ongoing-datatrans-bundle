@@ -12,7 +12,7 @@
 
     <testsuites>
         <testsuite name="Datatransbundle test suite">
-            <directory>./tests/</directory>
+            <directory>./Tests/</directory>
         </testsuite>
     </testsuites>
 
