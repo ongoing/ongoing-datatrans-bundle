@@ -36,11 +36,9 @@ final class Parameter
     const PARAM_EXPY = 'expy';
     const PARAM_PAYMENTMETHOD = 'paymentmethod';
     const PARAM_HIDDEN_MODE = 'hiddenMode';
-<<<<<<< Updated upstream
     const PARAM_PMETHOD = 'pmethod';
-=======
     const PARAM_ACCOUNT_ON_FILE = 'account_on_file';
->>>>>>> Stashed changes
+
 
     /**
      * optional customer params
