@@ -29,9 +29,10 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end() //credentials
                 ->scalarNode('test_mode')->defaultTrue()->end()
-                ->scalarNode('return_url')->defaultNull()->end()
-                ->scalarNode('error_url')->defaultNull()->end()
-                ->scalarNode('cancel_url')->defaultNull()->end()
+                ->arrayNode('transaction_parameter')
+                    ->defaultValue([])
+                    ->prototype('scalar')->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

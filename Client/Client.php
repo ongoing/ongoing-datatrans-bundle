@@ -82,14 +82,14 @@ class Client
 
     /**
      * @param Request $request
-     * @param bool $aliasPayment
+     * @param bool $accountOnFile
      * @return AuthorizationResponse
      */
-    public function authorizePayment(Request $request, $aliasPayment = true)
+    public function authorizePayment(Request $request, $accountOnFile = true)
     {
         //for aliaspayment, merchant id and sign from mail/phone order has to be used
         // it is set for the duration of one request
-        if ($aliasPayment) {
+        if ($accountOnFile) {
             $this->xmlGateway = $this->gatewayFactory->getAliasXmlGateway();
         }
 

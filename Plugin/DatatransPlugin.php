@@ -33,7 +33,7 @@ class DatatransPlugin extends AbstractPlugin
     /**
      * @var array
      */
-    private $returnUrls;
+    private $transactionParams;
 
     /**
      * DatatransPlugin constructor.
@@ -41,12 +41,16 @@ class DatatransPlugin extends AbstractPlugin
      * @param Client $client
      * @param RequestStack $requestStack
      * @param array $returnUrls
+     * @param array $transactionParams
      */
-    public function __construct(Client $client, RequestStack $requestStack, array $returnUrls = [])
-    {
+    public function __construct(
+        Client $client,
+        RequestStack $requestStack,
+        array $transactionParams = []
+    ) {
         $this->client = $client;
         $this->requestStack = $requestStack;
-        $this->returnUrls = $returnUrls;
+        $this->transactionParams = $transactionParams;
     }
 
     /**
@@ -68,16 +72,17 @@ class DatatransPlugin extends AbstractPlugin
     {
         $authRequest = $this->buildAuthorizationRequest($transaction);
 
-        //check if an alias is set, then authorize payment directly without redirecting user
-        if ($authRequest->has(Parameter::PARAM_ALIAS_CC)) {
-            //do authorization
+        // check if an account-on-file is set, then authorize payment directly without redirecting user
+        // mostly used for payments not initialized by user - or for one-click-checkout
+        if ($transaction->getExtendedData()->has(Parameter::PARAM_ACCOUNT_ON_FILE)) {
+            // do authorization
             $authRespone = $this->client->authorizePayment($authRequest, true);
             $this->setConfirmationData($transaction, $authRespone);
 
             return;
         }
 
-        //confirm request
+        // confirm request
         if ($this->getRequest()->request->has('responseCode')) {
             try {
                 $authResponse = $this->getAuthorizationResponse();
@@ -144,18 +149,20 @@ class DatatransPlugin extends AbstractPlugin
         $payment = $transaction->getPayment();
         $paymentInstruction = $payment->getPaymentInstruction();
 
+        // base params
         $params = [
             Parameter::PARAM_AMOUNT         => $transaction->getRequestedAmount(),
             Parameter::PARAM_CURRENCY       => $paymentInstruction->getCurrency(),
             Parameter::PARAM_RETURN_URL     => $this->getReturnUrl(Parameter::PARAM_RETURN_URL, $data),
             Parameter::PARAM_ERROR_URL      => $this->getReturnUrl(Parameter::PARAM_ERROR_URL, $data),
             Parameter::PARAM_CANCEL_URL     => $this->getReturnUrl(Parameter::PARAM_CANCEL_URL, $data),
-            Parameter::PARAM_RETURNMASKEDCC => 'yes',
-            Parameter::PARAM_USEALIAS       => 'yes',
             Parameter::PARAM_TRANSACTIONID  => $data->has(Parameter::PARAM_TRANSACTIONID) ? $data->get(
                 Parameter::PARAM_TRANSACTIONID
             ) : $payment->getId(),
         ];
+
+        // dont overwrite base params
+        $params = array_merge($this->transactionParams, $params);
 
         if ($data->has(Parameter::PARAM_ALIAS_CC)) {
             $params[Parameter::PARAM_ALIAS_CC] = $data->get(Parameter::PARAM_ALIAS_CC);
@@ -296,8 +303,8 @@ class DatatransPlugin extends AbstractPlugin
             return $data->get($type);
         }
 
-        if (isset($this->returnUrls[$type])) {
-            return $this->returnUrls[$type];
+        if (isset($this->transactionParams[$type])) {
+            return $this->transactionParams[$type];
         }
 
         throw new \RuntimeException('You must configure a return url.');
