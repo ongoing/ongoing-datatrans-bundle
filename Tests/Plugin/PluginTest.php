@@ -35,6 +35,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     public function testApproveWithAlias()
     {
         $transaction = $this->buildTestTransaction();
+        $transaction->getExtendedData()->set(Parameter::PARAM_ACCOUNT_ON_FILE, 'thisisanalias');
         $transaction->getExtendedData()->set(Parameter::PARAM_ALIAS_CC, 'thisisanalias');
         $transaction->getExtendedData()->set(Parameter::PARAM_EXPY, '18');
         $transaction->getExtendedData()->set(Parameter::PARAM_EXPM, '01');
