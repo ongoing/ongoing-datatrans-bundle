@@ -260,7 +260,8 @@ class DatatransPlugin extends AbstractPlugin
      */
     protected function throwUnlessValidPayConfirm(AuthorizationResponse $authResponse, Request $authRequest)
     {
-        $valid = $authResponse->getAmount() == $authRequest->getAmount() && $authResponse->getCurrency() == $authRequest->getCurrency();
+        $valid = $authResponse->getAmount() == $authRequest->getAmount() &&
+            $authResponse->getCurrency() == $authRequest->getCurrency();
 
         if (!$valid) {
             throw new \Exception(
