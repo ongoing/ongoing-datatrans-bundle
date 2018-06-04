@@ -151,31 +151,42 @@ class DatatransPlugin extends AbstractPlugin
 
         // base params
         $params = [
-            Parameter::PARAM_AMOUNT         => $transaction->getRequestedAmount(),
-            Parameter::PARAM_CURRENCY       => $paymentInstruction->getCurrency(),
-            Parameter::PARAM_RETURN_URL     => $this->getReturnUrl(Parameter::PARAM_RETURN_URL, $data),
-            Parameter::PARAM_ERROR_URL      => $this->getReturnUrl(Parameter::PARAM_ERROR_URL, $data),
-            Parameter::PARAM_CANCEL_URL     => $this->getReturnUrl(Parameter::PARAM_CANCEL_URL, $data),
-            Parameter::PARAM_TRANSACTIONID  => $data->has(Parameter::PARAM_TRANSACTIONID) ? $data->get(
-                Parameter::PARAM_TRANSACTIONID
-            ) : $payment->getId(),
+            Parameter::PARAM_AMOUNT => $transaction->getRequestedAmount(),
+            Parameter::PARAM_CURRENCY => $paymentInstruction->getCurrency(),
+            Parameter::PARAM_RETURN_URL => $this->getReturnUrl(Parameter::PARAM_RETURN_URL, $data),
+            Parameter::PARAM_ERROR_URL => $this->getReturnUrl(Parameter::PARAM_ERROR_URL, $data),
+            Parameter::PARAM_CANCEL_URL => $this->getReturnUrl(Parameter::PARAM_CANCEL_URL, $data),
+            Parameter::PARAM_TRANSACTIONID => $data->has(Parameter::PARAM_TRANSACTIONID) ?
+                $data->get(Parameter::PARAM_TRANSACTIONID) : $payment->getId(),
         ];
 
-        // dont overwrite base params
+        // merge with global configuration
         $params = array_merge($this->transactionParams, $params);
 
+        // set credit card data
         if ($data->has(Parameter::PARAM_ALIAS_CC)) {
-            $params[Parameter::PARAM_ALIAS_CC] = $data->get(Parameter::PARAM_ALIAS_CC);
-            $card = new CreditCard(
+            if ($data->has(Parameter::PARAM_PMETHOD)) {
+                $params['paymentMethod'] = $data->get(Parameter::PARAM_PMETHOD);
+            }
+
+            $params['card'] = new CreditCard(
                 [
-                    'number'       => $data->get(Parameter::PARAM_ALIAS_CC),
+                    'number' => $data->get(Parameter::PARAM_ALIAS_CC),
                     'expiry_month' => $data->get(Parameter::PARAM_EXPM),
-                    'expiry_year'  => $data->get(Parameter::PARAM_EXPY),
+                    'expiry_year' => $data->get(Parameter::PARAM_EXPY),
                 ]
             );
-            $params['card'] = $card;
+
+            // remove remember me if set
+            unset($params['uppRememberMe']);
         }
 
+        // check setting useAlias per transaction
+        if ($data->has(Parameter::PARAM_USEALIAS)) {
+            $params[Parameter::PARAM_USEALIAS] = $data->get(Parameter::PARAM_USEALIAS);
+        }
+
+        // check for customer details
         if ($data->has(Parameter::PARAM_UPP_CUSTOMER_DETAILS)) {
             $params[Parameter::PARAM_UPP_CUSTOMER_DETAILS] = $data->get(Parameter::PARAM_UPP_CUSTOMER_DETAILS);
         }
@@ -196,9 +207,9 @@ class DatatransPlugin extends AbstractPlugin
 
         $params = [
             Parameter::PARAM_UPPTRANSACTIONID => $trackingId,
-            Parameter::PARAM_AMOUNT           => $transaction->getRequestedAmount(),
-            Parameter::PARAM_CURRENCY         => $paymentInstruction->getCurrency(),
-            Parameter::PARAM_TRANSACTIONID    => $extendedData->has('reference_number') ? $extendedData->get(
+            Parameter::PARAM_AMOUNT => $transaction->getRequestedAmount(),
+            Parameter::PARAM_CURRENCY => $paymentInstruction->getCurrency(),
+            Parameter::PARAM_TRANSACTIONID => $extendedData->has('reference_number') ? $extendedData->get(
                 'reference_number'
             ) : $payment->getId(),
         ];
@@ -223,7 +234,7 @@ class DatatransPlugin extends AbstractPlugin
      */
     protected function throwFinancialTransaction(FinancialTransactionInterface $transaction, $e)
     {
-        $ex = new FinancialException('PaymentStatus is not completed: '.$e);
+        $ex = new FinancialException('PaymentStatus is not completed: ' . $e);
         $ex->setFinancialTransaction($transaction);
         $transaction->setResponseCode('Failed');
         $transaction->setReasonCode($e);
@@ -249,8 +260,7 @@ class DatatransPlugin extends AbstractPlugin
      */
     protected function throwUnlessValidPayConfirm(AuthorizationResponse $authResponse, Request $authRequest)
     {
-        $valid = $authResponse->getAmount() == $authRequest->getAmount() && $authResponse->getCurrency(
-        ) == $authRequest->getCurrency();
+        $valid = $authResponse->getAmount() == $authRequest->getAmount() && $authResponse->getCurrency() == $authRequest->getCurrency();
 
         if (!$valid) {
             throw new \Exception(
@@ -280,10 +290,10 @@ class DatatransPlugin extends AbstractPlugin
         $ccData = array_filter(
             [
                 Parameter::PARAM_MASKED_CC => $authResponse->getMaskedCC(),
-                Parameter::PARAM_EXPM      => $authResponse->getExpirationMonth(),
-                Parameter::PARAM_EXPY      => $authResponse->getExpirationYear(),
-                Parameter::PARAM_ALIAS_CC  => $authResponse->getAliasCC(),
-                Parameter::PARAM_PMETHOD   => $authResponse->getPMethod()
+                Parameter::PARAM_EXPM => $authResponse->getExpirationMonth(),
+                Parameter::PARAM_EXPY => $authResponse->getExpirationYear(),
+                Parameter::PARAM_ALIAS_CC => $authResponse->getAliasCC(),
+                Parameter::PARAM_PMETHOD => $authResponse->getPMethod()
             ]
         );
 
