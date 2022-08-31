@@ -83,14 +83,18 @@ class GatewayFactory
         $this->gateway->setPassword($this->credentials->get('password'));
         $this->gateway->setSign($this->credentials->get('sign'));
         $this->gateway->setTestMode($this->credentials->get('testmode'));
-        $this->gateway->setHmacKey1($this->credentials->get('sign'));
+        if ($this->credentials->get('hmac_key')) {
+            $this->gateway->setHmacKey1($this->credentials->get('hmac_key'));
+        }
 
         $this->xmlGateway = Omnipay::create(static::DATATRANS_XML_GATEWAY);
         $this->xmlGateway->setMerchantId($this->credentials->get('merchant_id'));
         $this->xmlGateway->setPassword($this->credentials->get('password'));
         $this->xmlGateway->setSign($this->credentials->get('sign'));
         $this->xmlGateway->setTestMode($this->credentials->get('testmode'));
-        $this->xmlGateway->setHmacKey1($this->credentials->get('sign'));
+        if ($this->credentials->get('hmac_key')) {
+            $this->xmlGateway->setHmacKey1($this->credentials->get('hmac_key'));
+        }
 
         //aliasxml gateway to implement one click checkout - a different merchant id is needed from datatrans
         if ($this->credentials->has('xml_merchant_id') && $this->credentials->get('xml_merchant_id') != null) {
@@ -99,7 +103,9 @@ class GatewayFactory
             $this->aliasXmlGateway->setPassword($this->credentials->get('xml_password'));
             $this->aliasXmlGateway->setSign($this->credentials->get('xml_sign'));
             $this->aliasXmlGateway->setTestMode($this->credentials->get('testmode'));
-            $this->aliasXmlGateway->setHmacKey1($this->credentials->get('xml_sign'));
+            if ($this->credentials->get('xml_hmac_key')) {
+                $this->aliasXmlGateway->setHmacKey1($this->credentials->get('xml_hmac_key'));
+            }
         }
     }
 }

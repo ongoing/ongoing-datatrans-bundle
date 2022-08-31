@@ -40,9 +40,13 @@ class AppKernel extends Kernel
 ongoing_datatrans:
     credentials:
         merchant_id: 1100004624
+        password: ~
         sign: 30916165706580013
+        hmac_key: ~
         xml_merchant_id: 1100004624
+        xml_password: ~
         xml_sign: 30916165706580013
+        xml_hmac_key: ~
     test_mode: true
     transaction_parameter: ~
 ```
