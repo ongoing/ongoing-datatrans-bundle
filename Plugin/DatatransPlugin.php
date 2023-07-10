@@ -179,6 +179,10 @@ class DatatransPlugin extends AbstractPlugin
 
             // remove remember me if set
             unset($params['uppRememberMe']);
+
+        // use payment method as configured in payment instructions
+        } elseif (!isset($params['paymentMethod']) && $paymentInstruction->getExtendedData()->get(Parameter::PARAM_PAYMENTMETHOD)) {
+            $params['paymentMethod'] = $paymentInstruction->getExtendedData()->get(Parameter::PARAM_PAYMENTMETHOD);
         }
 
         // check setting useAlias per transaction
