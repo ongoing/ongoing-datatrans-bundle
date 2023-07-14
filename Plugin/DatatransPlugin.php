@@ -160,8 +160,15 @@ class DatatransPlugin extends AbstractPlugin
                 $data->get(Parameter::PARAM_TRANSACTIONID) : $payment->getId(),
         ];
 
+        // additional data must be an array
+        $additionalData = array();
+        if ($paymentInstruction->getExtendedData()->has(Parameter::PARAM_ADDITIONAL_DATA)) {
+            $additionalData = $paymentInstruction->getExtendedData()->get(Parameter::PARAM_ADDITIONAL_DATA);
+            $additionalData = is_array($additionalData) ? $additionalData : [];
+        }
+
         // merge with global configuration
-        $params = array_merge($this->transactionParams, $params);
+        $params = array_merge($additionalData, $this->transactionParams, $params);
 
         // set credit card data
         if ($data->has(Parameter::PARAM_ALIAS_CC)) {
@@ -181,7 +188,7 @@ class DatatransPlugin extends AbstractPlugin
             unset($params['uppRememberMe']);
 
         // use payment method as configured in payment instructions
-        } elseif (!isset($params['paymentMethod']) && $paymentInstruction->getExtendedData()->get(Parameter::PARAM_PAYMENTMETHOD)) {
+        } elseif (!isset($params['paymentMethod']) && $paymentInstruction->getExtendedData()->has(Parameter::PARAM_PAYMENTMETHOD)) {
             $params['paymentMethod'] = $paymentInstruction->getExtendedData()->get(Parameter::PARAM_PAYMENTMETHOD);
         }
 

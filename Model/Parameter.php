@@ -38,6 +38,7 @@ final class Parameter
     const PARAM_PAYMENTMETHOD = 'paymentmethod';
     const PARAM_HIDDEN_MODE = 'hiddenMode';
     const PARAM_ACCOUNT_ON_FILE = 'account_on_file';
+    const PARAM_ADDITIONAL_DATA = 'additionalData';
 
     /**
      * optional customer params
